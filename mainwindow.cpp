@@ -104,14 +104,21 @@ void MainWindow::on_uploadButton_clicked()
 {
     if(ui->usuarioLineEdit->text().toStdString() == ""){
         QMessageBox messageBox;
-        messageBox.critical(0,"Error","El usuario no puede estar incompleto");
+        messageBox.critical(nullptr,"Error","El usuario no puede estar incompleto");
         messageBox.setFixedSize(500,200);
         return;
     }
 
     if(ui->passwordLineEdit->text().toStdString() == ""){
         QMessageBox messageBox;
-        messageBox.critical(0,"Error","La password no puede estar incompleto");
+        messageBox.critical(nullptr,"Error","La password no puede estar incompleto");
+        messageBox.setFixedSize(500,200);
+        return;
+    }
+
+    if(ui->artefactoLineEdit->text().toStdString() == ""){
+        QMessageBox messageBox;
+        messageBox.critical(nullptr,"Error","Debe seleccionar un archivo");
         messageBox.setFixedSize(500,200);
         return;
     }
