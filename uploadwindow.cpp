@@ -92,6 +92,7 @@ bool uploadWindow::generarMD5(){
         fileMD5.close();
         return true;
     } catch (int e) {
+        qDebug()<< "Excepcion: " << e;
         return false;
     }
 }
@@ -121,6 +122,7 @@ bool uploadWindow::generarSHA1(){
         fileSha1.close();
         return true;
     } catch (int e) {
+        qDebug()<< "Excepcion: " << e;
         return false;
     }
 }
@@ -133,4 +135,3 @@ void uploadWindow::on_salirBoton_clicked()
 {
 
 }
-
