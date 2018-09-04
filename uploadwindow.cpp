@@ -7,6 +7,7 @@
 #include <QDebug>
 #include <QStringListModel>
 #include <QFileInfo>
+#include <QUrl>
 
 uploadWindow::uploadWindow(MainWindow *parent) :
     QDialog(parent),
@@ -56,6 +57,23 @@ uploadWindow::uploadWindow(MainWindow *parent) :
     model->setStringList(lst);
     this->ui->barraProgreso->setValue(20);
 
+    lst.push_back("Creando links");
+    QFile file(QString::fromStdString(this->archivo));
+    file.open(QIODevice::ReadOnly);
+    QFileInfo fileInfo(file.fileName());
+    this->filename = QString(fileInfo.fileName());
+    this->buildLinks();
+    model->setStringList(lst);
+    this->ui->barraProgreso->setValue(50);
+
+    lst.push_back("Chequeando si ya existen en Nexus");
+    model->setStringList(lst);
+    if(this->VerSiExiste(this->link)){
+        lst.push_back("El archivo ZIP ya existe");
+        model->setStringList(lst);
+        return;
+    }
+    this->ui->barraProgreso->setValue(60);
 
 }
 
@@ -64,9 +82,6 @@ uploadWindow::~uploadWindow()
     delete ui;
 }
 
-bool uploadWindow::VerSiExiste(){
-    return true;
-}
 bool uploadWindow::generarMD5(){
     try {
         QFile file(QString::fromStdString(this->archivo));
@@ -127,7 +142,17 @@ bool uploadWindow::generarSHA1(){
     }
 }
 
+void uploadWindow::buildLinks(){
+    this->link = this->url+this->repositorio+"/"+this->carpeta+"/"+ this->filename.toStdString();
+    this->linkMD5 = this->url+this->repositorio+"/"+this->carpeta+"/"+this->filename.toStdString()+".md5";
+    this->linkSHA1 = this->url+this->repositorio+"/"+this->carpeta+"/"+this->filename.toStdString()+".sha1";
+}
+
 bool uploadWindow::Subir(){
+    return true;
+}
+
+bool uploadWindow::VerSiExiste(std::string url){
     return true;
 }
 

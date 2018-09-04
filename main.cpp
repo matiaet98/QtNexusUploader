@@ -19,17 +19,18 @@ void createConfig(){
 
     config["usuarioSUA"] = "Uxxxxx";
     config["passwordSUA"] = "";
-    config["nexusURL"] = "http://localhost:8081/repository/";
+    config["nexusURL"] = "https://nexus.cloudint.afip.gob.ar/nexus/repository/";
     config["repositorios"] = {
             "fisca-analisis-sectoriales-raw",
-            "fisca-scoring-raw",
-            "fisca-etl-raw",
+            "fisca-controles-raw",
             "fisca-devoluciones-raw",
+            "fisca-etl-raw",
             "fisca-facturacion-registracion-raw",
-            "fisca-seguimiento-acciones-raw",
             "fisca-infraestructura-raw",
+            "fisca-internacional-raw",
+            "fisca-scoring-raw",
+            "fisca-seguimiento-acciones-raw",
             "fisca-seleccion-casos-raw",
-            "fisca-internacional-raw"
     };
     config["carpetas"] = {
             "efisco/efisco-backend-sql",

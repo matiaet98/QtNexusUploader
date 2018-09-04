@@ -2,6 +2,7 @@
 #define UPLOADWINDOW_H
 
 #include <QDialog>
+#include <QUrl>
 #include "mainwindow.h"
 
 namespace Ui {
@@ -22,16 +23,21 @@ private slots:
 
 private:
     Ui::uploadWindow *ui;
-    bool VerSiExiste();
+    bool VerSiExiste(std::string url);
     bool generarMD5();
     bool generarSHA1();
     bool Subir();
+    void buildLinks();
     std::string usuario;
     std::string password;
     std::string archivo;
     std::string url;
     std::string repositorio;
     std::string carpeta;
+    QString filename;
+    std::string link;
+    std::string linkMD5;
+    std::string linkSHA1;
 };
 
 #endif // UPLOADWINDOW_H
