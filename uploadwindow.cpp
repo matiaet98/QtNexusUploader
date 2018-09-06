@@ -67,6 +67,9 @@ uploadWindow::uploadWindow(MainWindow *parent) :
     this->ui->barraProgreso->setValue(50);
 
     lst.push_back("Chequeando si ya existen en Nexus");
+    manager = new QNetworkAccessManager();
+    QObject::connect(manager, SIGNAL(finished(QNetworkReply*)),this, SLOT(managerFinished(QNetworkReply*)));
+
     model->setStringList(lst);
     if(this->VerSiExiste(this->link)){
         lst.push_back("El archivo ZIP ya existe");
@@ -80,6 +83,7 @@ uploadWindow::uploadWindow(MainWindow *parent) :
 uploadWindow::~uploadWindow()
 {
     delete ui;
+    delete manager;
 }
 
 bool uploadWindow::generarMD5(){
@@ -143,20 +147,31 @@ bool uploadWindow::generarSHA1(){
 }
 
 void uploadWindow::buildLinks(){
-    this->link = this->url+this->repositorio+"/"+this->carpeta+"/"+ this->filename.toStdString();
-    this->linkMD5 = this->url+this->repositorio+"/"+this->carpeta+"/"+this->filename.toStdString()+".md5";
-    this->linkSHA1 = this->url+this->repositorio+"/"+this->carpeta+"/"+this->filename.toStdString()+".sha1";
+    this->link = QUrl(QString::fromStdString(this->url)+QString::fromStdString(this->repositorio)+"/"+QString::fromStdString(this->carpeta)+"/"+ this->filename);
+    this->linkMD5 = QUrl(QString::fromStdString(this->url)+QString::fromStdString(this->repositorio)+"/"+QString::fromStdString(this->carpeta)+"/"+this->filename+".md5");
+    this->linkSHA1 = QUrl(QString::fromStdString(this->url)+QString::fromStdString(this->repositorio)+"/"+QString::fromStdString(this->carpeta)+"/"+this->filename+".sha1");
 }
 
 bool uploadWindow::Subir(){
     return true;
 }
 
-bool uploadWindow::VerSiExiste(std::string url){
+bool uploadWindow::VerSiExiste(QUrl url){
+
     return true;
 }
-
 void uploadWindow::on_salirBoton_clicked()
 {
 
+}
+
+void uploadWindow::managerFinished(QNetworkReply *reply) {
+    if (reply->error()) {
+        qDebug() << reply->errorString();
+        return;
+    }
+
+    QString answer = reply->readAll();
+
+    qDebug() << answer;
 }
